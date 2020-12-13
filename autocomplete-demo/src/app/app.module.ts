@@ -1,3 +1,4 @@
+import { ColorService } from './services/color.service';
 /********************************************************************************/
 /*                   A N G U L A R   L I B R A R I E S                    */
 /********************************************************************************/
@@ -51,7 +52,7 @@ import { JsonAutocompleteFieldComponent } from './components/json-autocomplete-f
     // ng g c component-name --module=app
 
   ],
-  providers: [GeoLocationService],
+  providers: [GeoLocationService, ColorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

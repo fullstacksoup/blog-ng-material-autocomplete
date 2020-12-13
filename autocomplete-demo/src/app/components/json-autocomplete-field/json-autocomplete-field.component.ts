@@ -30,7 +30,7 @@ export class JsonAutocompleteFieldComponent implements OnInit, OnDestroy{
 /********************************************************************************/
 
   ngOnInit(): void {
-   this.subs.add(this.geoSVC.getColors().subscribe((data) => {
+   this.subs.add(this.geoSVC.getStates().subscribe((data) => {
       this.options = data;
     },
     (err: HttpErrorResponse) => {

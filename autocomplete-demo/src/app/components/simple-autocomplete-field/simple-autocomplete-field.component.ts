@@ -4,7 +4,8 @@ import { FormControl } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { HttpErrorResponse } from '@angular/common/http';
+import { ColorService } from 'src/app/services/color.service';
 @Component({
   selector: 'simple-autocomplete-field',
   templateUrl: './simple-autocomplete-field.component.html',
@@ -15,7 +16,7 @@ export class SimpleAutocompleteFieldComponent  implements OnInit, OnDestroy{
   filteredOptions: Observable<string[]>;
   colorControl = new FormControl();
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private snackBar: MatSnackBar, private colorSVC: ColorService) {}
   options: string[] = ['Blue', 'Dark Blue', 'Light Blue', 'Green', 'Dark Green', 'Light Green', 'Light Orange', 'Orange', 'Red', 'Dark Red', 'Light Red', 'Yellow'];
 
 /********************************************************************************/
@@ -24,13 +25,25 @@ export class SimpleAutocompleteFieldComponent  implements OnInit, OnDestroy{
 
   ngOnInit(): void {
 
+    this.subs.add(this.colorSVC.getColors().subscribe((data) => {
+      this.options = data;
+      console.log(data);
+    },
+    (err: HttpErrorResponse) => {
+      console.log(err);
+    }));
 
-    this.filteredOptions = this.colorControl.valueChanges
-    .pipe(
+    this.filteredOptions = this.colorControl.valueChanges.pipe(
       startWith(''),
-      map(value => typeof value === 'string' ? value : value.name),
-      map(name => name ? this.array_filter(name) : this.options.slice())
+      map(value => this.colorFilter(value))
     );
+
+    // this.filteredOptions = this.colorControl.valueChanges
+    // .pipe(
+    //   startWith(''),
+    //   map(value => typeof value === 'string' ? value : value.name),
+    //   map(name => name ? this.colorFilter(name) : this.options.slice())
+    // );
   }
 
   ngOnDestroy(): void {
@@ -44,7 +57,7 @@ export class SimpleAutocompleteFieldComponent  implements OnInit, OnDestroy{
 /********************************************************************************/
 
   // Simple Filter
-  private array_filter(value: string): string[] {
+  private colorFilter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }

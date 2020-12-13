@@ -3,12 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class GeoLocationService {
+export class ColorService {
 
   constructor(private http: HttpClient) { }
 
   //  Get JSON Data from file - states.json under src/assets/
-  public getStates(): Observable<any> {
-    return this.http.get('assets/states.json');
+  public getColors(): Observable<any> {
+    return this.http.get('assets/colors.json');
   }
 }
