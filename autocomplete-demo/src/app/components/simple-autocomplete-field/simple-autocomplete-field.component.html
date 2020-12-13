@@ -1,0 +1,13 @@
+<mat-form-field>
+  <input type="text"
+         placeholder="Pick a Color"
+         aria-label="State"
+         matInput
+         [formControl]="colorControl"
+         [matAutocomplete]="auto">
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (onSelectionChange)="onSelectValue(option)">
+      {{option}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

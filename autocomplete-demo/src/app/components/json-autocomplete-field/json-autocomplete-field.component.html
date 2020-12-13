@@ -1,0 +1,13 @@
+<mat-form-field>
+  <input type="text"
+         placeholder="Pick a State"
+         aria-label="Number"
+         matInput
+         [formControl]="jsonControl"
+         [matAutocomplete]="auto">
+  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+    <mat-option *ngFor="let option of filteredJSONDataOptions | async" [value]="option.name" (onSelectionChange)="onSelectState(option.abbreviation)">
+      {{option.name}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
